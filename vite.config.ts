@@ -6,6 +6,10 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: ['/src/styles/style.scss'],
+      output: {
+        // Stable filename — avoids GROWI DB mismatch on every build
+        assetFileNames: 'assets/style.[ext]',
+      },
     },
   },
 });
