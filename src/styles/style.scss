@@ -45,7 +45,7 @@
   // =========================================================================
 
   $primary:   $outline-accent;
-  $highlight: $outline-accent;   // GROWI's accent/highlight system
+  $highlight: $outline-slate;      // neutral grey for borders/hover (Notion-style)
   $secondary: $outline-slate;
 
   // Generate color palettes (creates --grw-primary-* and --grw-highlight-* CSS vars)
@@ -215,6 +215,7 @@
 
   .grw-sidebar-nav {
     background-color: $sidebar-bg;
+    border-right-color: $outline-slate-light;
 
     // All buttons inside sidebar nav
     .btn {
@@ -322,6 +323,21 @@
       &:hover {
         background: $sidebar-hover;
       }
+    }
+  }
+
+  // =========================================================================
+  // Sidebar header buttons (reload, collapse)
+  // =========================================================================
+
+  .grw-btn-reload,
+  .grw-sidebar-content-header .btn {
+    border-radius: 4px;
+    color: $outline-slate;
+
+    &:hover {
+      background: $sidebar-hover;
+      color: $outline-slate-dark;
     }
   }
 
