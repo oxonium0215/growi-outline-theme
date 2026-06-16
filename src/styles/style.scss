@@ -8,8 +8,10 @@
 
 // ---------------------------------------------------------------------------
 // Google Fonts — Noto Sans JP (日本語対応), Inter for Latin fallback
+// Multiple @import to ensure correct loading order in CSS output
 // ---------------------------------------------------------------------------
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 
 // ---------------------------------------------------------------------------
 // Bootstrap init stage 1 — required before variable overrides
@@ -260,9 +262,10 @@ $badge-font-weight:        500;
 }
 
 // ---------------------------------------------------------------------------
-// Body — refined typography
+// html & body — font-family applied globally with high specificity
 // ---------------------------------------------------------------------------
-body {
+html, body {
+  font-family: $font-family-sans-serif !important;
   letter-spacing: -0.01em;
 }
 
@@ -369,89 +372,22 @@ a {
 }
 
 // ===========================================================================
-// Sidebar — Outline-style navigation
+// Sidebar + Page Tree — Outline-style (via CSS custom properties + data-attr selectors)
+//
+// GROWI uses CSS Modules — .grw-* classes are hashed, so themes MUST use:
+//   1. CSS custom properties (--grw-*) that GROWI's own CSS reads via var()
+//   2. Bootstrap global classes (.btn, .list-group-item, etc.)
+//   3. [data-testid] / [id^=] attribute selectors for specific components
 // ===========================================================================
-
-.grw-sidebar-nav {
-  background-color: var(--grw-sidebar-nav-bg, #{$outline-warm-grey});
-}
-
-// Primary items (main sidebar navigation buttons)
-.grw-primary-items .btn {
-  border-radius: 4px;
-  border: 0;
-  margin: 1px 0;
-  padding: 6px 16px;
-  min-height: 30px;
-  font-size: 16px;
-  font-weight: 475;
-  color: $outline-slate-dark;
-  background: transparent;
-  box-shadow: none;
-  transition: background-color 0.1s ease;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  user-select: none;
-
-  &.active,
-  &[aria-current="page"] {
-    background-color: var(--grw-sidebar-active-bg);
-    color: $outline-almost-black;
-  }
-
-  &:hover:not(.active):not([aria-current="page"]) {
-    background-color: var(--grw-sidebar-hover-bg);
-    color: $outline-almost-black;
-  }
-
-  @media (hover: hover) {
-    &:hover {
-      color: $outline-almost-black;
-    }
-  }
-}
-
-// Secondary items (bottom navigation)
-.grw-secondary-items .btn {
-  border-radius: 4px;
-  border: 0;
-  padding: 6px 16px;
-  min-height: 30px;
-  font-size: 16px;
-  font-weight: 475;
-  color: $outline-slate-dark;
-  background: transparent;
-  box-shadow: none;
-  transition: background-color 0.1s ease;
-  user-select: none;
-
-  &:hover {
-    background-color: var(--grw-sidebar-hover-bg);
-    color: $outline-almost-black;
-  }
-}
 
 // ===========================================================================
 // Page Tree (file tree) — Outline-style document hierarchy with row backgrounds
 // ===========================================================================
 
-// Depth-based left border colors (9 levels, repeating)
-$tree-depth-colors: (
-  0: $outline-marine,
-  1: $outline-blue,
-  2: $outline-purple,
-  3: $outline-red,
-  4: $outline-green,
-  5: $outline-marine,
-  6: $outline-blue,
-  7: $outline-purple,
-  8: $outline-red,
-);
-
-// Tree item container
-.tree-item-layout {
+// Tree item container — matches GROWI's data-testid attribute (bypasses CSS Modules hashing)
+[data-testid="grw-pagetree-item-container"] {
   // List group item inside tree layout
-  :global(.list-group-item) {
+  .list-group-item {
     --bs-list-group-bg: #{$outline-smoke-light};
     --bs-list-group-action-hover-bg: var(--grw-sidebar-hover-bg);
     --bs-list-group-action-active-bg: var(--grw-sidebar-active-bg);
@@ -469,65 +405,69 @@ $tree-depth-colors: (
     background-color: $outline-smoke-light;
     transition: background-color 0.1s ease;
 
-    // Depth indicator — subtle left border
+    // Depth indicator — subtle left border on every item
     &::before {
       content: "";
       position: absolute;
-      inset: 4px 100% 4px 0;
+      top: 4px;
+      bottom: 4px;
       left: 3px;
       width: 3px;
       border-radius: 2px;
-      background: transparent;
-      transition: background 0.1s ease;
-    }
-
-    // Generate depth-specific left border colors
-    @each $depth, $color in $tree-depth-colors {
-      &:global(.tree-item-depth-#{$depth})::before {
-        background: rgba($color, 0.3);
-      }
+      background: $outline-slate-light;
+      opacity: 0.5;
+      transition: background 0.1s ease, opacity 0.1s ease;
     }
 
     // Active state
-    &:global(.active),
     &.active {
       background-color: var(--grw-sidebar-active-bg);
       color: $outline-almost-black;
 
       &::before {
         background: $outline-accent;
+        opacity: 1;
         width: 3px;
       }
     }
 
     // Drag target
-    &:global(.drag-target) {
+    &.drag-target {
       background-color: var(--grw-sidebar-active-bg) !important;
       outline: 1.5px dashed var(--grw-sidebar-draft-border);
       outline-offset: -3px;
     }
 
-    // Hover controls visibility
+    // Hover state
     &:hover {
       background-color: var(--grw-sidebar-hover-bg);
       color: $outline-almost-black;
 
-      :global(.d-hover-none) {
-        display: none !important;
+      &::before {
+        opacity: 0.8;
       }
+    }
+  }
 
-      :global(.d-hover-flex) {
-        display: flex !important;
-      }
+  // Hover controls visibility — hide normal controls, show hover ones
+  .list-group-item:hover {
+    .d-hover-none {
+      display: none !important;
+    }
+
+    .d-hover-flex {
+      display: flex !important;
     }
   }
 }
 
-// Triangle toggle button (chevron) — Outline-style disclosure
-.btn-triangle {
+// Triangle toggle button (chevron) — targets buttons inside tree items
+// GROWI renders: <button class="btn btn-triangle p-0"> — .btn + .p-0 are global
+[data-testid="grw-pagetree-item-container"] .btn.p-0 {
   --bs-btn-color: var(--bs-tertiary-color, #{$outline-slate});
   border: 0;
   background: transparent;
+  box-shadow: none;
   transition: transform 100ms ease;
   transform: rotate(-90deg);  // Collapsed: points right (Outline style)
 
@@ -536,23 +476,22 @@ $tree-depth-colors: (
     background: var(--grw-sidebar-control-hover-bg);
   }
 
-  &:global(.open) {
+  &.open {
     transform: rotate(0deg);  // Expanded: points down
   }
 }
 
-// Page item control buttons (appear on hover)
-.btn-page-item-control {
+// Page item control buttons (appear on hover) — inside tree items
+[data-testid="grw-pagetree-item-container"] .d-hover-none .btn,
+[data-testid="grw-pagetree-item-container"] .d-hover-flex .btn {
   --bs-btn-bg: transparent;
-  --bs-btn-hover-bg: var(--grw-sidebar-control-hover-bg);
-  --bs-btn-active-bg: var(--grw-sidebar-control-hover-bg);
   border-radius: 4px;
   color: $outline-slate;
   transition: opacity 50ms, background-color 0.1s ease;
 
   &:hover {
     color: $outline-almost-black;
-    opacity: 0.75;
+    background: var(--grw-sidebar-control-hover-bg);
   }
 }
 
@@ -560,8 +499,7 @@ $tree-depth-colors: (
 // Navbar / Top bar
 // ===========================================================================
 
-.navbar,
-.grw-navbar {
+.navbar {
   border-bottom: 1px solid $outline-slate-light;
   background-color: $outline-white;
 }
@@ -835,49 +773,12 @@ blockquote {
   --grw-sidebar-active-bg: #{lighten($outline-very-dark-blue, 9%)};
   --grw-sidebar-control-hover-bg: #{rgba($outline-white, .1)};
   --grw-sidebar-draft-border: #{lighten($outline-very-dark-blue, 20%)};
-
-  // --- Sidebar background ---
   --grw-sidebar-nav-bg: #{$outline-very-dark-blue};
+  --grw-sidebar-nav-btn-color: #{$outline-slate};
 
-  .grw-sidebar-nav {
-    background-color: var(--grw-sidebar-nav-bg, #{$outline-very-dark-blue});
-  }
-
-  // --- Sidebar primary items ---
-  .grw-primary-items .btn {
-    color: $outline-slate;
-
-    &.active,
-    &[aria-current="page"] {
-      background-color: var(--grw-sidebar-active-bg);
-      color: $outline-almost-white;
-    }
-
-    &:hover:not(.active):not([aria-current="page"]) {
-      background-color: var(--grw-sidebar-hover-bg);
-      color: $outline-almost-white;
-    }
-
-    @media (hover: hover) {
-      &:hover {
-        color: $outline-almost-white;
-      }
-    }
-  }
-
-  // --- Sidebar secondary items ---
-  .grw-secondary-items .btn {
-    color: $outline-slate;
-
-    &:hover {
-      background-color: var(--grw-sidebar-hover-bg);
-      color: $outline-almost-white;
-    }
-  }
-
-  // --- Page tree items ---
-  .tree-item-layout {
-    :global(.list-group-item) {
+  // --- Page tree items (dark mode) ---
+  [data-testid="grw-pagetree-item-container"] {
+    .list-group-item {
       --bs-list-group-action-hover-bg: var(--grw-sidebar-hover-bg);
       --bs-list-group-action-active-bg: var(--grw-sidebar-active-bg);
       --bs-list-group-action-color: #{$outline-slate};
@@ -887,42 +788,39 @@ blockquote {
       color: $outline-slate;
       background-color: #{lighten($outline-almost-black, 2%)};
 
-      // Depth indicator — more visible in dark mode
       &::before {
-        background: transparent;
+        background: $outline-slate-dark;
+        opacity: 0.4;
       }
 
-      // Depth-specific left border colors (brighter in dark mode)
-      @each $depth, $color in $tree-depth-colors {
-        &:global(.tree-item-depth-#{$depth})::before {
-          background: rgba($color, 0.4);
-        }
-      }
-
-      &:global(.active),
       &.active {
         background-color: var(--grw-sidebar-active-bg);
         color: $outline-almost-white;
 
         &::before {
           background: $outline-accent-dark;
+          opacity: 1;
         }
       }
 
       &:hover {
         background-color: var(--grw-sidebar-hover-bg);
         color: $outline-almost-white;
+
+        &::before {
+          opacity: 0.7;
+        }
       }
 
-      &:global(.drag-target) {
+      &.drag-target {
         background-color: var(--grw-sidebar-active-bg) !important;
         outline-color: var(--grw-sidebar-draft-border);
       }
     }
   }
 
-  // --- Tree triangle toggle ---
-  .btn-triangle {
+  // --- Tree triangle toggle (dark mode) ---
+  [data-testid="grw-pagetree-item-container"] .btn.p-0 {
     --bs-btn-color: #{$outline-slate};
 
     &:hover {
@@ -931,9 +829,20 @@ blockquote {
     }
   }
 
+  // --- Tree item control buttons (dark mode) ---
+  [data-testid="grw-pagetree-item-container"] .d-hover-none .btn,
+  [data-testid="grw-pagetree-item-container"] .d-hover-flex .btn {
+    --bs-btn-bg: transparent;
+    color: $outline-slate;
+
+    &:hover {
+      color: $outline-almost-white;
+      background: var(--grw-sidebar-control-hover-bg);
+    }
+  }
+
   // --- Navbar ---
-  .navbar,
-  .grw-navbar {
+  .navbar {
     background-color: $outline-almost-black;
     border-bottom-color: lighten($outline-almost-black, 10%);
   }
