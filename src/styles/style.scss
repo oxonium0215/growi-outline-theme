@@ -1,235 +1,267 @@
-// ============================================================================
-// GROWI Outline Theme
-// Inspired by Outline wiki's clean, minimal design language
-//
-// Design tokens: https://github.com/outline/outline/blob/main/shared/styles/theme.ts
-// ============================================================================
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600&display=swap");
+
+$outline-white:        #ffffff;
+$outline-smoke:        #f4f7fa;
+$outline-smoke-dark:   #e8ebed;
+$outline-warm-grey:    #edf2f7;
+$outline-slate-light:  #dae1e9;
+$outline-slate:        #66778f;
+$outline-slate-dark:   #394351;
+$outline-almost-black: #111319;
+$outline-black:        #000000;
+$outline-accent:       #0366d6;
+$outline-danger:       #ed2651;
+$outline-accent-dark:  #137ffb;
 
 :root[data-bs-theme] {
-  // =========================================================================
-  // Stage 1 — Bootstrap functions + GROWI theming variables
-  // =========================================================================
   @import "@growi/core-styles/scss/bootstrap/init-stage-1";
   @import "@growi/core-styles/scss/bootstrap/theming/variables";
   @import "@growi/core-styles/scss/bootstrap/theming/utils/color-palette";
 
-  // =========================================================================
-  // Outline Design Tokens — Color Palette
-  // =========================================================================
-
-  // --- Core Grayscale (Outline) ---
-  $outline-white:            #ffffff;
-  $outline-almost-white:     #e6e6e6;
-  $outline-smoke:            #f4f7fa;
-  $outline-smoke-dark:       #e8ebed;
-  $outline-warm-grey:        #edf2f7;
-  $outline-slate-light:      #dae1e9;
-  $outline-slate:            #66778f;
-  $outline-slate-dark:       #394351;
-  $outline-light-black:      #2f3336;
-  $outline-almost-black:     #111319;
-  $outline-very-dark-blue:   #08090c;
-  $outline-black:            #000000;
-
-  // --- Accent (Outline blue) ---
-  $outline-accent:           #0366d6;
-
-  // --- Semantic ---
-  $outline-danger:           #ed2651;
-  $outline-warning:          #f08a24;
-  $outline-success:          #3ad984;
-  $outline-info:             #a0d3e8;
-
-  // =========================================================================
-  // GROWI Color Variables
-  // =========================================================================
-
   $primary:   $outline-accent;
-  $highlight: $outline-accent;   // GROWI's accent/highlight system
+  $highlight: $outline-accent;
   $secondary: $outline-slate;
 
-  // Generate color palettes (creates --grw-primary-* and --grw-highlight-* CSS vars)
   @include generate-color-palette("primary", $primary);
   @include generate-color-palette("highlight", $highlight);
 
-  // =========================================================================
-  // Bootstrap Variable Overrides
-  // =========================================================================
+  $body-color:           $outline-almost-black;
+  $body-bg:              $outline-white;
+  $body-secondary-color: rgba($body-color, 0.75);
+  $body-secondary-bg:    $outline-warm-grey;
+  $body-tertiary-bg:     $outline-smoke;
 
-  // --- Color system ---
-  $success: $outline-success;
-  $info:    $outline-info;
-  $warning: $outline-warning;
-  $danger:  $outline-danger;
-  $light:   $outline-smoke;
-  $dark:    $outline-almost-black;
-
-  // --- Body ---
-  $body-color:            $outline-almost-black;
-  $body-bg:               $outline-white;
-  $body-secondary-color:  rgba($body-color, 0.75);
-  $body-secondary-bg:     $outline-warm-grey;
-  $body-tertiary-color:   rgba($body-color, 0.5);
-  $body-tertiary-bg:      $outline-smoke;
-
-  // --- Typography ---
   $font-family-sans-serif: "Noto Sans JP", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   $font-family-monospace:  "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   $font-size-base:         0.9375rem;
-  $line-height-base:       1.5;
   $headings-font-weight:   600;
-  $headings-color:         $outline-almost-black;
   $link-color:             $outline-accent;
   $link-hover-color:       darken($outline-accent, 10%);
   $link-decoration:        none;
 
-  // --- Borders ---
   $border-color:    $outline-slate-light;
   $border-radius:   0.375rem;
-  $border-radius-sm: 0.25rem;
   $border-radius-lg: 0.5rem;
 
-  // --- Inputs ---
   $input-bg:                 $outline-warm-grey;
   $input-border-color:       $outline-slate-light;
   $input-focus-border-color: $outline-slate;
   $input-focus-box-shadow:   0 0 0 0.2rem rgba($outline-accent, 0.15);
   $input-placeholder-color:  #a2b2c3;
 
-  // --- Cards ---
   $card-bg:            $outline-white;
   $card-border-color:  $outline-slate-light;
-  $card-box-shadow:    0 1px 3px rgba($outline-black, 0.04);
   $card-border-radius: 0.5rem;
 
-  // --- Buttons ---
   $btn-border-radius:  6px;
   $btn-font-size:      0.875rem;
   $btn-font-weight:    500;
   $btn-padding-y:      0;
   $btn-padding-x:      0.5rem;
   $btn-line-height:    2rem;
-  $btn-box-shadow:     0 1px 2px rgba($outline-black, 0.2);
-  $btn-focus-box-shadow: 0 0 0 3px rgba($outline-accent, 0.25);
   $btn-transition:     background 200ms ease-out;
 
-  // --- Navbar ---
-  $navbar-light-color:        $outline-slate-dark;
-  $navbar-light-hover-color:  $outline-almost-black;
-  $navbar-light-active-color: $outline-accent;
+  $dropdown-bg:            $outline-white;
+  $dropdown-border-color:  $outline-slate-light;
+  $dropdown-link-hover-bg: $outline-warm-grey;
 
-  // --- Dropdowns ---
-  $dropdown-bg:              $outline-white;
-  $dropdown-border-color:    $outline-slate-light;
-  $dropdown-link-hover-bg:   $outline-warm-grey;
-
-  // --- Tooltips ---
   $tooltip-bg:    $outline-almost-black;
   $tooltip-color: $outline-white;
 
-  // --- Modals ---
   $modal-content-bg: $outline-white;
 
-  // --- Code ---
-  $code-color: $outline-light-black;
+  $code-color: $outline-almost-black;
   $code-bg:    $outline-smoke;
 
-  // --- List group ---
-  $list-group-bg:           $outline-white;
   $list-group-border-color: $outline-slate-light;
   $list-group-hover-bg:     $outline-warm-grey;
-  $list-group-action-color: $outline-slate-dark;
 
-  // --- Pagination ---
-  $pagination-bg:           $outline-white;
-  $pagination-border-color: $outline-slate-light;
-  $pagination-hover-bg:     $outline-warm-grey;
-  $pagination-active-bg:    $outline-accent;
-
-  // --- Breadcrumb / Badge ---
-  $breadcrumb-bg:    transparent;
-  $badge-font-weight: 500;
-
-  // =========================================================================
-  // Stage 2 — Apply Bootstrap with GROWI theming
-  // =========================================================================
   @import "bootstrap/scss/variables";
   @import "bootstrap/scss/variables-dark";
   @import "@growi/core-styles/scss/bootstrap/init-stage-2";
   @import "@growi/core-styles/scss/bootstrap/theming/apply-light";
-
-  // =========================================================================
-  // Typography
-  // =========================================================================
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   &,
   body {
-    font-family: $font-family-sans-serif;
+    font-family: $font-family-sans-serif !important;
     letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, h5, h6,
   .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: $headings-font-weight;
     letter-spacing: -0.02em;
   }
 
-  h1, .h1 { font-size: 1.75rem; }
-  h2, .h2 { font-size: 1.5rem; }
-  h3, .h3 { font-size: 1.25rem; }
-  h4, .h4 { font-size: 1.125rem; }
-  h5, .h5 { font-size: 1rem; }
-  h6, .h6 { font-size: 0.875rem; }
-
   a {
     text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
 
+  code {
+    background: $outline-smoke;
+    border: 1px solid $outline-smoke-dark;
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    font-size: 0.875em;
+  }
+
+  pre {
+    background: $outline-smoke;
+    border: 1px solid $outline-smoke-dark;
+    border-radius: 8px;
+    padding: 1rem;
+    code { background: transparent; border: 0; padding: 0; }
+  }
+
+  hr { border-color: $outline-smoke-dark; opacity: 1; }
+
+  blockquote {
+    border-left: 3px solid $outline-slate-light;
+    color: $outline-slate-dark;
+    padding-left: 1rem;
+    margin-left: 0;
+  }
+
+  .form-control {
+    border-radius: 6px;
+    &:focus {
+      border-color: $outline-accent;
+      box-shadow: 0 0 0 3px rgba($outline-accent, 0.25);
+    }
+    &::placeholder { color: #a2b2c3; }
+  }
+
+  .navbar { border-bottom: 1px solid $outline-slate-light; }
+
+  .dropdown-menu {
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.02), 0 4px 8px rgba(0,0,0,0.08);
+  }
+
+  .dropdown-item {
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    margin: 1px 0;
+  }
+
+  .card {
+    border: 1px solid $outline-slate-light;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba($outline-accent, 0.25);
+  }
+
+  .btn-primary {
+    background: $outline-accent;
+    border-color: $outline-accent;
     &:hover {
-      text-decoration: underline;
+      background: darken($outline-accent, 5%);
+      border-color: darken($outline-accent, 5%);
     }
   }
 
+  .modal-content {
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  }
+  .modal-header { border-bottom: 1px solid $outline-slate-light; }
+  .modal-footer { border-top: 1px solid $outline-slate-light; }
+
+  .tooltip {
+    --bs-tooltip-bg: #{$outline-almost-black};
+    --bs-tooltip-color: #{$outline-white};
+    --bs-tooltip-border-radius: 4px;
+  }
+
+  .badge { font-weight: 500; border-radius: 4px; }
+
+  .breadcrumb { font-size: 0.875rem; }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: darken($outline-smoke-dark, 10%);
+    border-radius: 4px;
+    &:hover { background: darken($outline-smoke-dark, 20%); }
+  }
+
   // =========================================================================
-  // GROWI Sidebar — CSS Custom Properties
+  // Sidebar
   // =========================================================================
 
-  --grw-sidebar-nav-btn-color: var(--grw-highlight-500);
-  --grw-sidebar-nav-btn-hover-bg: var(--grw-highlight-200);
+  $sbar-bg:     #fafafa;
+  $sbar-hover:  #f1f1f1;
+  $sbar-active: #e8e8e8;
 
-  // =========================================================================
-  // Sidebar Navigation — Outline-style
-  // =========================================================================
+  [data-testid="grw-sidebar"] {
+    background: $sbar-bg;
+  }
 
   .grw-sidebar-nav {
-    background-color: $outline-warm-grey;
+    background: $sbar-bg;
+    border-right-color: $outline-slate-light;
   }
 
-  .grw-primary-items .btn,
-  .grw-secondary-items .btn {
-    border-radius: 4px;
+  .grw-sidebar-nav-primary-container .btn,
+  .grw-sidebar-nav-secondary-container .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     border: 0;
-    padding: 6px 16px;
-    min-height: 30px;
-    font-size: 16px;
-    font-weight: 475;
+    border-radius: 6px;
     background: transparent;
+    color: $outline-slate;
     box-shadow: none;
-    transition: background-color 0.1s ease;
+    transition: background 0.1s ease;
 
-    &:hover {
-      background-color: var(--grw-highlight-200);
-    }
+    &:hover { background: $sbar-hover; color: $outline-almost-black; }
+    &.active { background: $sbar-active; color: $outline-almost-black; }
+  }
 
-    &.active,
-    &[aria-current="page"] {
-      background-color: var(--grw-highlight-300);
-    }
+  .grw-sidebar-nav-secondary-container .btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+  }
+
+  [data-testid="grw-sidebar"] .btn-primary.p-2 {
+    background: transparent;
+    border: 0;
+    color: $outline-slate;
+    box-shadow: none;
+    &:hover { background: $sbar-hover; color: $outline-almost-black; }
+  }
+
+  [data-testid="grw-page-create-button"] .btn-primary {
+    background: transparent;
+    border: 0;
+    color: $outline-accent;
+    box-shadow: none;
+    padding: 0;
+    width: auto;
+    height: auto;
+    &:hover { color: darken($outline-accent, 5%); }
+  }
+
+  .grw-sidebar-contents {
+    background: $outline-white;
+    border-radius: 8px 0 0 8px;
   }
 
   // =========================================================================
-  // Page Tree (file tree) — Outline-style with row backgrounds
+  // Page Tree
   // =========================================================================
 
   [data-testid="grw-pagetree-item-container"] {
@@ -239,10 +271,9 @@
       margin-bottom: 1px;
       font-size: 16px;
       font-weight: 475;
-      background-color: $outline-smoke;
-      transition: background-color 0.1s ease;
+      background: transparent;
+      transition: background 0.1s ease;
 
-      // Depth indicator — subtle left border
       &::before {
         content: "";
         position: absolute;
@@ -251,433 +282,93 @@
         left: 3px;
         width: 3px;
         border-radius: 2px;
-        background: $outline-slate-light;
-        opacity: 0.5;
-        transition: opacity 0.1s ease;
+        background: transparent;
+        transition: background 0.1s ease;
       }
 
       &.active {
-        background-color: var(--grw-highlight-300);
-
-        &::before {
-          background: $outline-accent;
-          opacity: 1;
-        }
+        background: $sbar-active;
+        &::before { background: $outline-accent; }
       }
 
       &:hover {
-        background-color: var(--grw-highlight-200);
+        background: $sbar-hover;
+        &::before { background: $outline-slate-light; }
+      }
 
-        &::before {
-          opacity: 0.8;
-        }
+      &:hover {
+        .d-hover-none { display: none !important; }
+        .d-hover-flex { display: flex !important; }
       }
     }
 
-    // Hover controls
-    .list-group-item:hover {
-      .d-hover-none { display: none !important; }
-      .d-hover-flex { display: flex !important; }
-    }
-
-    // Chevron toggle
     .btn.p-0 {
       border: 0;
       background: transparent;
       box-shadow: none;
+      color: $outline-slate-light;
       transition: transform 100ms ease;
-      transform: rotate(-90deg);
+      transform: rotate(0deg);
 
-      &:hover {
-        background: var(--grw-highlight-200);
-      }
-
-      &.open {
-        transform: rotate(0deg);
-      }
+      &:hover { background: $sbar-hover; color: $outline-slate; }
+      &.open { transform: rotate(90deg); }
     }
 
-    // Action buttons on hover
     .d-hover-none .btn,
     .d-hover-flex .btn {
       border-radius: 4px;
-
-      &:hover {
-        background: var(--grw-highlight-200);
-      }
+      &:hover { background: $sbar-hover; }
     }
   }
 
-  // =========================================================================
-  // Cards
-  // =========================================================================
-
-  .card {
-    border: 1px solid $outline-slate-light;
-    box-shadow: 0 1px 3px rgba($outline-black, 0.04);
-    transition: box-shadow 0.15s ease;
-
-    &:hover {
-      box-shadow: 0 2px 8px rgba($outline-black, 0.08);
-    }
-  }
-
-  // =========================================================================
-  // Buttons
-  // =========================================================================
-
-  .btn {
-    font-weight: 500;
-    transition: background 200ms ease-out;
-
-    &:focus-visible {
-      box-shadow: 0 0 0 3px rgba($outline-accent, 0.25);
-    }
-  }
-
-  .btn-primary {
-    background-color: $outline-accent;
-    border-color: $outline-accent;
-
-    &:hover {
-      background-color: darken($outline-accent, 5%);
-      border-color: darken($outline-accent, 5%);
-    }
-  }
-
-  .btn-secondary,
-  .btn-outline-secondary {
-    background: transparent;
-    box-shadow: 0 1px 2px rgba($outline-black, 0.07), 0 0 0 1px darken($outline-white, 15%) inset;
-
-    &:hover {
-      background: $outline-warm-grey;
-    }
-  }
-
-  // =========================================================================
-  // Form controls
-  // =========================================================================
-
-  .form-control {
-    border-radius: 6px;
-    background-color: $outline-warm-grey;
-    border-color: $outline-slate-light;
-
-    &:focus {
-      border-color: $outline-accent;
-      box-shadow: 0 0 0 3px rgba($outline-accent, 0.25);
-    }
-
-    &::placeholder {
-      color: #a2b2c3;
-    }
-  }
-
-  // =========================================================================
-  // Navbar
-  // =========================================================================
-
-  .navbar {
-    border-bottom: 1px solid $outline-slate-light;
-    background-color: $outline-white;
-  }
-
-  // =========================================================================
-  // Dropdown menus
-  // =========================================================================
-
-  .dropdown-menu {
-    border: 1px solid $outline-slate-light;
-    border-radius: 8px;
-    padding: 4px;
-    box-shadow:
-      0 0 0 1px rgba($outline-black, 0.02),
-      0 4px 8px rgba($outline-black, 0.08),
-      0 2px 4px rgba($outline-black, 0),
-      0 30px 40px rgba($outline-black, 0.08);
-  }
-
-  .dropdown-item {
+  .grw-btn-reload {
     border-radius: 4px;
-    padding: 6px 12px;
-    font-size: 14px;
-    margin: 1px 0;
-
-    &:hover {
-      background-color: $outline-warm-grey;
-    }
-  }
-
-  // =========================================================================
-  // Code
-  // =========================================================================
-
-  code {
-    background-color: $outline-smoke;
-    border: 1px solid $outline-smoke-dark;
-    border-radius: 4px;
-    padding: 0.15em 0.4em;
-    font-size: 0.875em;
-  }
-
-  pre {
-    background-color: $outline-smoke;
-    border: 1px solid $outline-smoke-dark;
-    border-radius: 8px;
-    padding: 1rem;
-
-    code {
-      background-color: transparent;
-      border: none;
-      padding: 0;
-    }
-  }
-
-  // =========================================================================
-  // Modals
-  // =========================================================================
-
-  .modal-content {
-    border: none;
-    border-radius: 12px;
-    box-shadow:
-      0 4px 8px rgba($outline-black, 0.08),
-      0 2px 4px rgba($outline-black, 0),
-      0 30px 40px rgba($outline-black, 0.08);
-  }
-
-  .modal-header { border-bottom: 1px solid $outline-slate-light; }
-  .modal-footer { border-top: 1px solid $outline-slate-light; }
-
-  // =========================================================================
-  // Misc
-  // =========================================================================
-
-  .table { --bs-table-hover-bg: #{$outline-smoke}; }
-
-  hr {
-    border-color: $outline-smoke-dark;
-    opacity: 1;
-  }
-
-  blockquote {
-    border-left: 3px solid $outline-slate-light;
-    color: $outline-slate-dark;
-    padding-left: 1rem;
-    margin-left: 0;
-  }
-
-  .list-group-item {
-    border-color: $outline-slate-light;
-  }
-
-  .breadcrumb { font-size: 0.875rem; }
-
-  .tooltip {
-    --bs-tooltip-bg: #{$outline-almost-black};
-    --bs-tooltip-color: #{$outline-white};
-  }
-
-  .badge { font-weight: 500; }
-
-  .toast {
-    border-radius: 8px;
-    border: 1px solid $outline-slate-light;
-    box-shadow: 0 0 0 1px rgba($outline-black, 0.02), 0 8px 16px rgba($outline-black, 0.08);
-  }
-
-  // =========================================================================
-  // Scrollbar
-  // =========================================================================
-
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: darken($outline-smoke-dark, 10%);
-    border-radius: 4px;
-
-    &:hover { background-color: darken($outline-smoke-dark, 20%); }
+    &:hover { background: $sbar-hover; }
   }
 }
 
-// ============================================================================
-// Dark Mode Overrides
-// ============================================================================
+// ===========================================================================
+// Dark Mode
+// ===========================================================================
 
 [data-bs-theme="dark"]:root {
-  // Outline dark accent
-  $outline-accent-dark: #137ffb;
-
-  // Override color variables
-  $primary:   $outline-accent-dark;
-  $highlight: $outline-accent-dark;
-
-  // Body
-  $body-color:  #e6e6e6;
-  $body-bg:     #111319;
-
-  // Sidebar
-  --grw-sidebar-nav-bg: #08090c;
-  --grw-sidebar-nav-btn-color: #{$outline-accent-dark};
-
-  // Sidebar navigation
-  .grw-sidebar-nav {
-    background-color: #08090c;
+  .grw-sidebar-nav-primary-container .btn,
+  .grw-sidebar-nav-secondary-container .btn {
+    color: $outline-slate;
+    &:hover { background: rgba(255,255,255,0.05); color: #e6e6e6; }
+    &.active { background: rgba(255,255,255,0.08); color: #e6e6e6; }
   }
 
-  .grw-primary-items .btn,
-  .grw-secondary-items .btn {
-    color: #66778f;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.05);
-      color: #e6e6e6;
-    }
-
-    &.active,
-    &[aria-current="page"] {
-      background-color: rgba(255, 255, 255, 0.09);
-      color: #e6e6e6;
-    }
+  [data-testid="grw-sidebar"] .btn-primary.p-2 {
+    background: transparent;
+    color: $outline-slate;
+    &:hover { background: rgba(255,255,255,0.05); color: #e6e6e6; }
   }
 
-  // Page tree items
+  [data-testid="grw-page-create-button"] .btn-primary {
+    color: $outline-accent-dark;
+    &:hover { color: lighten($outline-accent-dark, 10%); }
+  }
+
   [data-testid="grw-pagetree-item-container"] {
     .list-group-item {
-      color: #66778f;
-      background-color: lighten(#111319, 2%);
-
-      &::before {
-        background: #394351;
-        opacity: 0.4;
-      }
-
+      color: $outline-slate;
       &.active {
-        background-color: rgba(255, 255, 255, 0.09);
+        background: rgba(255,255,255,0.08);
         color: #e6e6e6;
-
-        &::before {
-          background: $outline-accent-dark;
-          opacity: 1;
-        }
       }
-
       &:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+        background: rgba(255,255,255,0.05);
         color: #e6e6e6;
-
-        &::before { opacity: 0.7; }
       }
     }
-
     .btn.p-0 {
-      &:hover { background: rgba(255, 255, 255, 0.1); }
+      color: #394351;
+      &:hover { color: $outline-slate; background: rgba(255,255,255,0.05); }
     }
-
-    .d-hover-none .btn,
-    .d-hover-flex .btn {
-      &:hover { background: rgba(255, 255, 255, 0.1); }
-    }
+    .d-hover-none .btn:hover,
+    .d-hover-flex .btn:hover { background: rgba(255,255,255,0.05); }
   }
 
-  // Navbar
-  .navbar {
-    background-color: #111319;
-    border-bottom-color: lighten(#111319, 10%);
-  }
-
-  // Form controls
-  .form-control {
-    background-color: #262d36;
-    border-color: #394351;
-    color: #e6e6e6;
-
-    &::placeholder { color: #596673; }
-
-    &:focus {
-      border-color: $outline-accent-dark;
-      box-shadow: 0 0 0 3px rgba($outline-accent-dark, 0.25);
-    }
-  }
-
-  // Buttons
-  .btn-primary {
-    background-color: $outline-accent-dark;
-    border-color: $outline-accent-dark;
-
-    &:hover {
-      background-color: lighten($outline-accent-dark, 5%);
-      border-color: lighten($outline-accent-dark, 5%);
-    }
-  }
-
-  .btn-secondary,
-  .btn-outline-secondary {
-    color: #e6e6e6;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 0 1px #394351 inset;
-
-    &:hover { background: rgba(255, 255, 255, 0.1); }
-  }
-
-  // Dropdowns
-  .dropdown-menu {
-    background-color: #181c25;
-    border-color: lighten(#111319, 10%);
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.3);
-  }
-
-  .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-
-  // Code
-  code, pre {
-    background-color: #1d202a;
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #e6e6e6;
-  }
-
-  pre code {
-    background-color: transparent;
-    border: none;
-  }
-
-  // Modals
-  .modal-content { background-color: #181c25; }
-  .modal-header { border-bottom-color: lighten(#111319, 10%); }
-  .modal-footer { border-top-color: lighten(#111319, 10%); }
-
-  // Cards
-  .card {
-    border-color: lighten(#111319, 10%);
-  }
-
-  // Misc
-  hr { border-color: lighten(#111319, 10%); }
-
-  blockquote {
-    border-left-color: #394351;
-    color: #66778f;
-  }
-
-  .list-group-item {
-    border-color: lighten(#111319, 10%);
-    background-color: lighten(#111319, 4%);
-    color: #e6e6e6;
-  }
-
-  .toast {
-    background-color: #181c25;
-    border-color: lighten(#111319, 10%);
-    color: #e6e6e6;
-  }
-
-  // Scrollbar
-  ::-webkit-scrollbar-thumb {
-    background-color: #2f3336;
-
-    &:hover { background-color: lighten(#2f3336, 10%); }
-  }
+  .grw-btn-reload { &:hover { background: rgba(255,255,255,0.05); } }
 }
