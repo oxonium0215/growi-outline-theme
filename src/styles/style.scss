@@ -197,23 +197,32 @@
   // =========================================================================
 
   --grw-sidebar-nav-btn-color: #{$outline-slate-dark};
-  --grw-sidebar-nav-btn-hover-bg: #{hsl(212, 31%, 90%)};
+  --grw-sidebar-nav-btn-hover-bg: #f1f1f1;
 
   // =========================================================================
-  // Sidebar Navigation — Outline-style
-  //
-  // Note: .grw-primary-items / .grw-secondary-items are CSS Module hashed
-  // classes without global variants. Target via attribute selectors.
+  // Sidebar — Notion-style minimalist
   // =========================================================================
+
+  // Notion-style interaction colors
+  $sidebar-bg:      #fafafa;
+  $sidebar-hover:   #f1f1f1;
+  $sidebar-active:  #e8e8e8;
+
+  // Sidebar outer container
+  [data-testid="grw-sidebar"] {
+    background-color: $sidebar-bg;
+  }
 
   .grw-sidebar-nav {
-    background-color: $outline-warm-grey;
+    background-color: $sidebar-bg;
 
     // All buttons inside sidebar nav
     .btn {
+      display: inline-flex;
+      align-items: center;
       border-radius: 4px;
       border: 0;
-      padding: 6px 16px;
+      padding: 6px 12px;
       min-height: 30px;
       font-size: 16px;
       font-weight: 475;
@@ -222,32 +231,30 @@
       transition: background-color 0.1s ease;
 
       &:hover {
-        background-color: hsl(212, 31%, 90%);
+        background-color: $sidebar-hover;
       }
 
       &.active,
       &[aria-current="page"] {
-        background-color: hsl(212, 31%, 85%);
+        background-color: $sidebar-active;
       }
     }
   }
 
   // =========================================================================
-  // Page Tree (file tree) — Outline exact colors
+  // Page Tree (file tree) — Notion-style
   // =========================================================================
-
-  // Outline sidebar interaction colors
-  $sidebar-hover:  hsl(212, 31%, 90%);   // rgb(224, 229, 235)
-  $sidebar-active: hsl(212, 31%, 85%);   // rgb(204, 214, 224)
 
   [data-testid="grw-pagetree-item-container"] {
     .list-group-item {
+      display: flex;
+      align-items: center;
       border-radius: 4px;
       min-height: 30px;
       margin-bottom: 1px;
       font-size: 16px;
       font-weight: 475;
-      background-color: $outline-smoke;
+      background-color: transparent;
       transition: background-color 0.1s ease;
 
       // Depth indicator — subtle left border
@@ -259,8 +266,8 @@
         left: 3px;
         width: 3px;
         border-radius: 2px;
-        background: $outline-slate-light;
-        opacity: 0.5;
+        background: transparent;
+        opacity: 0;
         transition: opacity 0.1s ease;
       }
 
@@ -268,7 +275,7 @@
         background-color: $sidebar-active;
 
         &::before {
-          background: $outline-accent;
+          background: $outline-slate-light;
           opacity: 1;
         }
       }
@@ -288,20 +295,22 @@
       .d-hover-flex { display: flex !important; }
     }
 
-    // Chevron toggle
+    // Chevron toggle — arrow_right icon: 0deg=right(closed) 90deg=down(open)
     .btn.p-0 {
       border: 0;
       background: transparent;
       box-shadow: none;
+      color: $outline-slate-light;
       transition: transform 100ms ease;
-      transform: rotate(-90deg);
+      transform: rotate(0deg);  // closed: points right
 
       &:hover {
+        color: $outline-slate;
         background: $sidebar-hover;
       }
 
       &.open {
-        transform: rotate(0deg);
+        transform: rotate(90deg);  // open: points down
       }
     }
 
@@ -551,49 +560,57 @@
   --grw-sidebar-nav-bg: #08090c;
   --grw-sidebar-nav-btn-color: #{$outline-accent-dark};
 
-  // Sidebar navigation
+  // Sidebar — dark minimalist
+  $sidebar-dark-bg:    #111319;
+  $sidebar-dark-hover: rgba(255, 255, 255, 0.05);
+  $sidebar-dark-active: rgba(255, 255, 255, 0.08);
+
+  [data-testid="grw-sidebar"] {
+    background-color: $sidebar-dark-bg;
+  }
+
   .grw-sidebar-nav {
-    background-color: #08090c;
+    background-color: $sidebar-dark-bg;
 
     .btn {
       color: #66778f;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: $sidebar-dark-hover;
         color: #e6e6e6;
       }
 
       &.active,
       &[aria-current="page"] {
-        background-color: rgba(255, 255, 255, 0.09);
+        background-color: $sidebar-dark-active;
         color: #e6e6e6;
       }
     }
   }
 
-  // Page tree items
+  // Page tree items (dark)
   [data-testid="grw-pagetree-item-container"] {
     .list-group-item {
       color: #66778f;
-      background-color: lighten(#111319, 2%);
+      background-color: transparent;
 
       &::before {
-        background: #394351;
-        opacity: 0.4;
+        background: transparent;
+        opacity: 0;
       }
 
       &.active {
-        background-color: rgba(255, 255, 255, 0.09);
+        background-color: $sidebar-dark-active;
         color: #e6e6e6;
 
         &::before {
-          background: $outline-accent-dark;
+          background: #66778f;
           opacity: 1;
         }
       }
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: $sidebar-dark-hover;
         color: #e6e6e6;
 
         &::before { opacity: 0.7; }
@@ -601,12 +618,17 @@
     }
 
     .btn.p-0 {
-      &:hover { background: rgba(255, 255, 255, 0.1); }
+      color: #394351;
+
+      &:hover {
+        color: #66778f;
+        background: $sidebar-dark-hover;
+      }
     }
 
     .d-hover-none .btn,
     .d-hover-flex .btn {
-      &:hover { background: rgba(255, 255, 255, 0.1); }
+      &:hover { background: $sidebar-dark-hover; }
     }
   }
 
