@@ -119,11 +119,17 @@ $card-border-color:        $outline-slate-light;
 $card-box-shadow:          0 1px 3px rgba($outline-black, .04);
 $card-border-radius:       0.5rem;
 
-// --- Buttons ---
-$btn-border-radius:        0.375rem;
+// --- Buttons (Outline: 14px, 500 weight, 32px height, 6px radius, subtle shadow) ---
+$btn-border-radius:        6px;
+$btn-font-size:            0.875rem;   // 14px
 $btn-font-weight:          500;
-$btn-box-shadow:           none;
-$btn-focus-box-shadow:     0 0 0 0.2rem rgba($outline-accent, .15);
+$btn-padding-y:            0;
+$btn-padding-x:            0.5rem;     // 8px
+$btn-line-height:          2rem;       // 32px total height
+$btn-box-shadow:           0 1px 2px rgba($outline-black, .2);
+$btn-focus-box-shadow:     0 0 0 3px rgba($outline-accent, .25);
+$btn-transition:           background 200ms ease-out;
+$btn-disabled-opacity:     1;
 
 // --- Navbar ---
 $navbar-light-color:       $outline-slate-dark;
@@ -211,7 +217,7 @@ $badge-font-weight:        500;
 // ===========================================================================
 
 // ---------------------------------------------------------------------------
-// Root custom properties — typography & sidebar
+// Root custom properties — typography, sidebar, colors
 // ---------------------------------------------------------------------------
 :root {
   // Smooth font rendering
@@ -224,7 +230,7 @@ $badge-font-weight:        500;
   --grw-sidebar-nav-btn-color: #{$outline-slate-dark};
   --grw-sidebar-nav-btn-hover-bg: #{rgba($outline-slate-light, .5)};
 
-  // GROWI highlight color scale (based on Outline accent blue)
+  // GROWI highlight color scale (generated from Outline accent)
   --grw-highlight-100: #{lighten($outline-accent, 40%)};
   --grw-highlight-200: #{lighten($outline-accent, 30%)};
   --grw-highlight-300: #{lighten($outline-accent, 20%)};
@@ -235,7 +241,7 @@ $badge-font-weight:        500;
   --grw-highlight-800: #{darken($outline-accent, 30%)};
   --grw-highlight-900: #{darken($outline-accent, 40%)};
 
-  // GROWI primary color scale (for button variants, etc.)
+  // GROWI primary color scale
   --grw-primary-100: #{lighten($outline-accent, 40%)};
   --grw-primary-200: #{lighten($outline-accent, 30%)};
   --grw-primary-300: #{lighten($outline-accent, 20%)};
@@ -245,13 +251,18 @@ $badge-font-weight:        500;
   --grw-primary-700: #{darken($outline-accent, 20%)};
   --grw-primary-800: #{darken($outline-accent, 30%)};
   --grw-primary-900: #{darken($outline-accent, 40%)};
+
+  // Outline-style sidebar active/hover backgrounds
+  --grw-sidebar-hover-bg: #{hsl(212, 31%, 90%)};
+  --grw-sidebar-active-bg: #{hsl(212, 31%, 85%)};
+  --grw-sidebar-control-hover-bg: #{rgba(138, 164, 193, 0.2)};
+  --grw-sidebar-draft-border: #{hsl(212, 31%, 75%)};
 }
 
 // ---------------------------------------------------------------------------
-// Body — font features for refined typography
+// Body — refined typography
 // ---------------------------------------------------------------------------
 body {
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   letter-spacing: -0.01em;
 }
 
@@ -271,7 +282,7 @@ h5, .h5 { font-size: 1rem; }
 h6, .h6 { font-size: 0.875rem; }
 
 // ---------------------------------------------------------------------------
-// Links — clean underline-on-hover
+// Links — underline on hover only
 // ---------------------------------------------------------------------------
 a {
   text-decoration: none;
@@ -281,9 +292,241 @@ a {
   }
 }
 
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// Buttons — Outline style (6px radius, subtle shadow, 200ms background transition)
+// ===========================================================================
+
+.btn {
+  font-weight: $btn-font-weight;
+  letter-spacing: -0.01em;
+  transition: $btn-transition;
+  appearance: none;
+
+  &:focus-visible {
+    box-shadow: $btn-focus-box-shadow;
+    outline: 0;
+  }
+}
+
+// Primary button (accent)
+.btn-primary {
+  --bs-btn-bg: #{$outline-accent};
+  --bs-btn-border-color: #{$outline-accent};
+  --bs-btn-color: #{$outline-white};
+
+  &:hover {
+    --bs-btn-bg: #{darken($outline-accent, 5%)};
+    --bs-btn-border-color: #{darken($outline-accent, 5%)};
+    transition: background 0s;
+  }
+
+  &:disabled {
+    --bs-btn-color: #{rgba($outline-white, .7)};
+    --bs-btn-bg: #{rgba($outline-accent, .1)};
+  }
+}
+
+// Neutral / secondary / outline buttons — Outline-style inset border
+.btn-secondary,
+.btn-outline-secondary,
+.btn-light {
+  --bs-btn-bg: transparent;
+  --bs-btn-color: #{$outline-almost-black};
+  --bs-btn-border-color: #{darken($outline-white, 15%)};
+  box-shadow: 0 1px 2px rgba($outline-black, .07), 0 0 0 1px #{darken($outline-white, 15%)} inset;
+
+  &:hover {
+    box-shadow: 0 1px 2px rgba($outline-black, .07), 0 0 0 1px #{darken($outline-white, 15%)} inset;
+    background-color: $outline-warm-grey;
+    transition: background 0s;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba($outline-accent, .25), 0 0 0 1px #{$outline-slate} inset;
+  }
+
+  &:disabled {
+    color: $outline-slate;
+    background: none;
+  }
+}
+
+// Danger button
+.btn-danger {
+  --bs-btn-bg: #{$outline-danger};
+  --bs-btn-border-color: #{$outline-danger};
+  --bs-btn-color: #{$outline-white};
+
+  &:hover {
+    --bs-btn-bg: #{darken($outline-danger, 5%)};
+    --bs-btn-border-color: #{darken($outline-danger, 5%)};
+    transition: background 0s;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba($outline-danger, .4), 0 0 0 1px #{darken($outline-danger, 20%)} inset;
+  }
+}
+
+// ===========================================================================
+// Sidebar — Outline-style navigation
+// ===========================================================================
+
+.grw-sidebar-nav {
+  background-color: var(--grw-sidebar-nav-bg, #{$outline-warm-grey});
+}
+
+// Primary items (main sidebar navigation buttons)
+.grw-primary-items .btn {
+  border-radius: 4px;
+  border: 0;
+  margin: 1px 0;
+  padding: 6px 16px;
+  min-height: 30px;
+  font-size: 16px;
+  font-weight: 475;
+  color: $outline-slate-dark;
+  background: transparent;
+  box-shadow: none;
+  transition: background-color 0.1s ease;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  user-select: none;
+
+  &.active,
+  &[aria-current="page"] {
+    background-color: var(--grw-sidebar-active-bg);
+    color: $outline-almost-black;
+  }
+
+  &:hover:not(.active):not([aria-current="page"]) {
+    background-color: var(--grw-sidebar-hover-bg);
+    color: $outline-almost-black;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: $outline-almost-black;
+    }
+  }
+}
+
+// Secondary items (bottom navigation)
+.grw-secondary-items .btn {
+  border-radius: 4px;
+  border: 0;
+  padding: 6px 16px;
+  min-height: 30px;
+  font-size: 16px;
+  font-weight: 475;
+  color: $outline-slate-dark;
+  background: transparent;
+  box-shadow: none;
+  transition: background-color 0.1s ease;
+  user-select: none;
+
+  &:hover {
+    background-color: var(--grw-sidebar-hover-bg);
+    color: $outline-almost-black;
+  }
+}
+
+// ===========================================================================
+// Page Tree (file tree) — Outline-style document hierarchy
+// ===========================================================================
+
+// Tree item container — indentation handled by inline style
+.tree-item-layout {
+  // List group item inside tree layout
+  :global(.list-group-item) {
+    --bs-list-group-bg: transparent;
+    --bs-list-group-action-hover-bg: var(--grw-sidebar-hover-bg);
+    --bs-list-group-action-active-bg: var(--grw-sidebar-active-bg);
+    --bs-list-group-action-color: #{$outline-slate-dark};
+    --bs-list-group-action-hover-color: #{$outline-almost-black};
+    --bs-list-group-action-active-color: #{$outline-almost-black};
+
+    border-radius: 4px;
+    min-height: 30px;
+    font-size: 16px;
+    font-weight: 475;
+    color: $outline-slate-dark;
+    transition: background-color 0.1s ease;
+
+    // Active state
+    &:global(.active),
+    &.active {
+      background-color: var(--grw-sidebar-active-bg);
+      color: $outline-almost-black;
+    }
+
+    // Drag target
+    &:global(.drag-target) {
+      background-color: var(--grw-sidebar-active-bg) !important;
+      outline: 1.5px dashed var(--grw-sidebar-draft-border);
+      outline-offset: -3px;
+    }
+
+    // Hover controls visibility
+    &:hover {
+      :global(.d-hover-none) {
+        display: none !important;
+      }
+
+      :global(.d-hover-flex) {
+        display: flex !important;
+      }
+    }
+  }
+}
+
+// Triangle toggle button (chevron) — Outline-style disclosure
+.btn-triangle {
+  --bs-btn-color: var(--bs-tertiary-color, #{$outline-slate});
+  border: 0;
+  background: transparent;
+  transition: transform 100ms ease;
+  transform: rotate(-90deg);  // Collapsed: points right (Outline style)
+
+  &:hover {
+    color: $outline-almost-black;
+    background: var(--grw-sidebar-control-hover-bg);
+  }
+
+  &:global(.open) {
+    transform: rotate(0deg);  // Expanded: points down
+  }
+}
+
+// Page item control buttons (appear on hover)
+.btn-page-item-control {
+  --bs-btn-bg: transparent;
+  --bs-btn-hover-bg: var(--grw-sidebar-control-hover-bg);
+  --bs-btn-active-bg: var(--grw-sidebar-control-hover-bg);
+  border-radius: 4px;
+  color: $outline-slate;
+  transition: opacity 50ms, background-color 0.1s ease;
+
+  &:hover {
+    color: $outline-almost-black;
+    opacity: 0.75;
+  }
+}
+
+// ===========================================================================
+// Navbar / Top bar
+// ===========================================================================
+
+.navbar,
+.grw-navbar {
+  border-bottom: 1px solid $outline-slate-light;
+  background-color: $outline-white;
+}
+
+// ===========================================================================
 // Cards — subtle shadow, elevated on hover
-// ---------------------------------------------------------------------------
+// ===========================================================================
+
 .card {
   border: 1px solid $outline-slate-light;
   box-shadow: 0 1px 3px rgba($outline-black, .04);
@@ -294,79 +537,19 @@ a {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Buttons — medium weight, smooth transitions
-// ---------------------------------------------------------------------------
-.btn {
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  transition: all 0.15s ease;
-}
-
-.btn-primary {
-  background-color: $outline-accent;
-  border-color: $outline-accent;
-
-  &:hover {
-    background-color: darken($outline-accent, 8%);
-    border-color: darken($outline-accent, 8%);
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Sidebar — Outline-style navigation
-// ---------------------------------------------------------------------------
-.grw-sidebar-nav {
-  background-color: var(--grw-sidebar-nav-bg, #{$outline-warm-grey});
-}
-
-// Primary items (main navigation)
-.grw-primary-items .btn {
-  border-radius: 0.375rem;
-  margin: 1px 0;
-  transition: background-color 0.1s ease;
-
-  &.active,
-  &[aria-current="page"] {
-    background-color: $outline-slate-light;
-  }
-
-  &:hover:not(.active) {
-    background-color: $outline-warm-grey;
-  }
-}
-
-// Secondary items (bottom navigation)
-.grw-secondary-items .btn {
-  border-radius: 0.375rem;
-  transition: background-color 0.1s ease;
-
-  &:hover {
-    background-color: $outline-warm-grey;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Navbar / Top bar
-// ---------------------------------------------------------------------------
-.navbar,
-.grw-navbar {
-  border-bottom: 1px solid $outline-slate-light;
-  background-color: $outline-white;
-}
-
-// ---------------------------------------------------------------------------
+// ===========================================================================
 // Form controls — Outline uses warm-grey input backgrounds
-// ---------------------------------------------------------------------------
+// ===========================================================================
+
 .form-control {
   border: 1px solid $outline-slate-light;
-  border-radius: 0.375rem;
+  border-radius: 6px;
   background-color: $outline-warm-grey;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
   &:focus {
     border-color: $outline-accent;
-    box-shadow: 0 0 0 3px rgba($outline-accent, .15);
+    box-shadow: 0 0 0 3px rgba($outline-accent, .25);
   }
 
   &::placeholder {
@@ -374,12 +557,14 @@ a {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Dropdown menus — Outline-style elevated popovers
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// Dropdown menus — Outline-style elevated menus
+// ===========================================================================
+
 .dropdown-menu {
   border: 1px solid $outline-slate-light;
-  border-radius: 0.5rem;
+  border-radius: 8px;
+  padding: 4px;
   box-shadow:
     0 0 0 1px rgba($outline-black, .02),
     0 4px 8px rgba($outline-black, .08),
@@ -388,9 +573,10 @@ a {
 }
 
 .dropdown-item {
-  border-radius: 0.25rem;
-  margin: 1px 4px;
-  width: calc(100% - 8px);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  margin: 1px 0;
 
   &:hover {
     background-color: $outline-warm-grey;
@@ -399,16 +585,18 @@ a {
   &.active,
   &:active {
     background-color: $outline-accent;
+    color: $outline-white;
   }
 }
 
-// ---------------------------------------------------------------------------
-// Code blocks — subtle background with border
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// Code blocks — Outline-style
+// ===========================================================================
+
 code {
   background-color: $outline-smoke;
   border: 1px solid $outline-smoke-dark;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   padding: 0.15em 0.4em;
   font-size: 0.875em;
 }
@@ -416,7 +604,7 @@ code {
 pre {
   background-color: $outline-smoke;
   border: 1px solid $outline-smoke-dark;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   padding: 1rem;
 
   code {
@@ -426,19 +614,21 @@ pre {
   }
 }
 
-// ---------------------------------------------------------------------------
+// ===========================================================================
 // Tables
-// ---------------------------------------------------------------------------
+// ===========================================================================
+
 .table {
   --bs-table-hover-bg: #{$outline-smoke};
 }
 
-// ---------------------------------------------------------------------------
+// ===========================================================================
 // Modals
-// ---------------------------------------------------------------------------
+// ===========================================================================
+
 .modal-content {
   border: none;
-  border-radius: 0.75rem;
+  border-radius: 12px;
   box-shadow:
     0 4px 8px rgba($outline-black, .08),
     0 2px 4px rgba($outline-black, 0),
@@ -453,16 +643,22 @@ pre {
   border-top: 1px solid $outline-slate-light;
 }
 
-// ---------------------------------------------------------------------------
-// Page content — comfortable reading line-height
-// ---------------------------------------------------------------------------
+.modal-backdrop {
+  background-color: rgba($outline-black, .2);
+}
+
+// ===========================================================================
+// Page content — comfortable reading
+// ===========================================================================
+
 .grw-page-content {
   line-height: 1.7;
 }
 
-// ---------------------------------------------------------------------------
-// Custom scrollbar — thin, Outline-style
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// Custom scrollbar — thin Outline-style
+// ===========================================================================
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -481,17 +677,19 @@ pre {
   }
 }
 
-// ---------------------------------------------------------------------------
+// ===========================================================================
 // Horizontal rule
-// ---------------------------------------------------------------------------
+// ===========================================================================
+
 hr {
   border-color: $outline-smoke-dark;
   opacity: 1;
 }
 
-// ---------------------------------------------------------------------------
+// ===========================================================================
 // Blockquote — left border accent
-// ---------------------------------------------------------------------------
+// ===========================================================================
+
 blockquote {
   border-left: 3px solid $outline-slate-light;
   color: $outline-slate-dark;
@@ -499,22 +697,56 @@ blockquote {
   margin-left: 0;
 }
 
-// ---------------------------------------------------------------------------
+// ===========================================================================
 // List group
-// ---------------------------------------------------------------------------
+// ===========================================================================
+
 .list-group-item {
   border: 1px solid $outline-slate-light;
 }
 
-// ---------------------------------------------------------------------------
+// ===========================================================================
 // Breadcrumb
-// ---------------------------------------------------------------------------
+// ===========================================================================
+
 .breadcrumb {
   font-size: 0.875rem;
 }
 
 // ===========================================================================
-// Dark Mode Overrides
+// Tooltips
+// ===========================================================================
+
+.tooltip {
+  --bs-tooltip-bg: #{$outline-almost-black};
+  --bs-tooltip-color: #{$outline-white};
+  --bs-tooltip-border-radius: 4px;
+}
+
+// ===========================================================================
+// Badges
+// ===========================================================================
+
+.badge {
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+// ===========================================================================
+// Toasts / Notifications
+// ===========================================================================
+
+.toast {
+  border-radius: 8px;
+  border: 1px solid $outline-slate-light;
+  box-shadow:
+    0 0 0 1px rgba($outline-black, .02),
+    0 8px 16px rgba($outline-black, .08),
+    0 2px 4px rgba($outline-black, 0);
+}
+
+// ===========================================================================
+// Dark Mode Overrides — Outline dark theme
 // ===========================================================================
 
 [data-bs-theme="dark"] {
@@ -555,6 +787,85 @@ blockquote {
   --grw-primary-800: #{lighten($outline-accent-dark, 40%)};
   --grw-primary-900: #{lighten($outline-accent-dark, 50%)};
 
+  // Outline sidebar dark mode overrides
+  --grw-sidebar-hover-bg: #{lighten($outline-very-dark-blue, 5%)};
+  --grw-sidebar-active-bg: #{lighten($outline-very-dark-blue, 9%)};
+  --grw-sidebar-control-hover-bg: #{rgba($outline-white, .1)};
+  --grw-sidebar-draft-border: #{lighten($outline-very-dark-blue, 20%)};
+
+  // --- Sidebar background ---
+  --grw-sidebar-nav-bg: #{$outline-very-dark-blue};
+
+  .grw-sidebar-nav {
+    background-color: var(--grw-sidebar-nav-bg, #{$outline-very-dark-blue});
+  }
+
+  // --- Sidebar primary items ---
+  .grw-primary-items .btn {
+    color: $outline-slate;
+
+    &.active,
+    &[aria-current="page"] {
+      background-color: var(--grw-sidebar-active-bg);
+      color: $outline-almost-white;
+    }
+
+    &:hover:not(.active):not([aria-current="page"]) {
+      background-color: var(--grw-sidebar-hover-bg);
+      color: $outline-almost-white;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: $outline-almost-white;
+      }
+    }
+  }
+
+  // --- Sidebar secondary items ---
+  .grw-secondary-items .btn {
+    color: $outline-slate;
+
+    &:hover {
+      background-color: var(--grw-sidebar-hover-bg);
+      color: $outline-almost-white;
+    }
+  }
+
+  // --- Page tree items ---
+  .tree-item-layout {
+    :global(.list-group-item) {
+      --bs-list-group-action-hover-bg: var(--grw-sidebar-hover-bg);
+      --bs-list-group-action-active-bg: var(--grw-sidebar-active-bg);
+      --bs-list-group-action-color: #{$outline-slate};
+      --bs-list-group-action-hover-color: #{$outline-almost-white};
+      --bs-list-group-action-active-color: #{$outline-almost-white};
+
+      color: $outline-slate;
+
+      &:global(.active),
+      &.active {
+        background-color: var(--grw-sidebar-active-bg);
+        color: $outline-almost-white;
+      }
+
+      &:global(.drag-target) {
+        background-color: var(--grw-sidebar-active-bg) !important;
+        outline-color: var(--grw-sidebar-draft-border);
+      }
+    }
+  }
+
+  // --- Tree triangle toggle ---
+  .btn-triangle {
+    --bs-btn-color: #{$outline-slate};
+
+    &:hover {
+      color: $outline-almost-white;
+      background: var(--grw-sidebar-control-hover-bg);
+    }
+  }
+
   // --- Navbar ---
   .navbar,
   .grw-navbar {
@@ -574,7 +885,39 @@ blockquote {
 
     &:focus {
       border-color: $outline-accent-dark;
-      box-shadow: 0 0 0 3px rgba($outline-accent-dark, .2);
+      box-shadow: 0 0 0 3px rgba($outline-accent-dark, .25);
+    }
+  }
+
+  // --- Buttons ---
+  .btn-primary {
+    --bs-btn-bg: #{$outline-accent-dark};
+    --bs-btn-border-color: #{$outline-accent-dark};
+
+    &:hover {
+      --bs-btn-bg: #{lighten($outline-accent-dark, 5%)};
+      --bs-btn-border-color: #{lighten($outline-accent-dark, 5%)};
+    }
+  }
+
+  .btn-secondary,
+  .btn-outline-secondary,
+  .btn-light {
+    --bs-btn-color: #{$outline-almost-white};
+    --bs-btn-border-color: #{$outline-slate-dark};
+    box-shadow: 0 1px 2px rgba($outline-black, .3), 0 0 0 1px #{$outline-slate-dark} inset;
+
+    &:hover {
+      background-color: rgba($outline-white, .1);
+      box-shadow: 0 1px 2px rgba($outline-black, .3), 0 0 0 1px #{$outline-slate-dark} inset;
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba($outline-accent-dark, .4), 0 0 0 1px #{$outline-slate} inset;
+    }
+
+    &:disabled {
+      color: $outline-slate;
     }
   }
 
@@ -624,28 +967,24 @@ blockquote {
     border-top-color: lighten($outline-almost-black, 10%);
   }
 
-  // --- Sidebar ---
-  --grw-sidebar-nav-bg: #{$outline-very-dark-blue};
-
-  .grw-sidebar-nav {
-    background-color: var(--grw-sidebar-nav-bg, #{$outline-very-dark-blue});
+  .modal-backdrop {
+    background-color: rgba($outline-black, .5);
   }
 
-  .grw-primary-items .btn {
-    &.active,
-    &[aria-current="page"] {
-      background-color: rgba($outline-white, .09);
-    }
-
-    &:hover:not(.active) {
-      background-color: rgba($outline-white, .05);
-    }
+  // --- Tooltips ---
+  .tooltip {
+    --bs-tooltip-bg: #{$outline-white};
+    --bs-tooltip-color: #{$outline-light-black};
   }
 
-  .grw-secondary-items .btn {
-    &:hover {
-      background-color: rgba($outline-white, .05);
-    }
+  // --- Toasts ---
+  .toast {
+    background-color: #181c25;
+    border-color: lighten($outline-almost-black, 10%);
+    color: $outline-almost-white;
+    box-shadow:
+      0 0 0 1px rgba($outline-black, .2),
+      0 8px 16px rgba($outline-black, .4);
   }
 
   // --- Scrollbar ---
