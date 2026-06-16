@@ -213,12 +213,6 @@ $outline-accent-dark:  #137ffb;
 
   .grw-sidebar-nav-primary-container .btn,
   .grw-sidebar-nav-secondary-container .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
     border: 0;
     border-radius: 6px;
     background: transparent;
@@ -228,12 +222,6 @@ $outline-accent-dark:  #137ffb;
 
     &:hover { background: $sbar-hover; color: $outline-almost-black; }
     &.active { background: $sbar-active; color: $outline-almost-black; }
-  }
-
-  .grw-sidebar-nav-secondary-container .btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
   }
 
   [data-testid="grw-sidebar"] .btn-primary.p-2 {
