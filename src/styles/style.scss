@@ -208,9 +208,26 @@
   $sidebar-hover:   #f1f1f1;
   $sidebar-active:  #e8e8e8;
 
-  // Sidebar outer container
+  // Sidebar outer container — neutralize all primary buttons inside
   [data-testid="grw-sidebar"] {
     background-color: $sidebar-bg;
+
+    .btn-primary {
+      background: transparent;
+      border: 0;
+      color: $outline-slate-dark;
+      box-shadow: none;
+
+      &:hover {
+        background: $sidebar-hover;
+      }
+    }
+  }
+
+  // Create button hexagon — increase size
+  [data-testid="grw-page-create-button"] .btn {
+    width: 40px;
+    height: 40px;
   }
 
   .grw-sidebar-nav {
@@ -583,6 +600,23 @@
 
   [data-testid="grw-sidebar"] {
     background-color: $sidebar-dark-bg;
+
+    .btn-primary {
+      background: transparent;
+      border: 0;
+      color: #66778f;
+      box-shadow: none;
+
+      &:hover {
+        background: $sidebar-dark-hover;
+        color: #e6e6e6;
+      }
+    }
+  }
+
+  [data-testid="grw-page-create-button"] .btn {
+    width: 40px;
+    height: 40px;
   }
 
   .grw-sidebar-nav {
