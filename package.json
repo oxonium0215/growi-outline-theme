@@ -1,0 +1,50 @@
+{
+  "name": "growi-plugin-theme-outline",
+  "version": "1.0.0",
+  "description": "GROWI theme plugin inspired by Outline wiki's clean, minimal design language",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "lint": "run-s lint:biome lint:style",
+    "lint:biome": "biome check --no-errors-on-unmatched --files-ignore-unknown=true",
+    "lint:style": "stylelint --cache --cache-location node_modules/.cache/stylelint 'src/**/*.scss'",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@growi/core-styles": "file:.yalc/@growi/core-styles",
+    "@growi/pluginkit": "^4.0.0",
+    "bootstrap": "^5.3.3",
+    "sass": "^1.83.4",
+    "stylelint": "^16.12.0",
+    "stylelint-config-recess-order": "^5.1.1",
+    "stylelint-config-recommended-scss": "^14.1.0",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  },
+  "growiPlugin": {
+    "schemaVersion": "4",
+    "types": [
+      "theme"
+    ],
+    "themes": [
+      {
+        "name": "outline",
+        "manifest": "src/styles/style.scss",
+        "scheme": "both",
+        "lightBg": "#ffffff",
+        "darkBg": "#111319",
+        "lightSidebar": "#edf2f7",
+        "darkSidebar": "#08090c",
+        "lightIcon": "#0366d6",
+        "darkIcon": "#137ffb",
+        "createBtn": "#0366d6"
+      }
+    ]
+  }
+}

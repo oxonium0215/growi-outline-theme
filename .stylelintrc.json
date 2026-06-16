@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "stylelint-config-recommended-scss",
+    "stylelint-config-recess-order"
+  ],
+  "rules": {
+    "no-descending-specificity": null,
+    "scss/no-global-function-names": null,
+    "scss/at-import-partial-extension": null,
+    "scss/operator-no-unspaced": null
+  }
+}
