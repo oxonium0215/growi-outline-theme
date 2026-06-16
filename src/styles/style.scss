@@ -193,44 +193,52 @@
 
   // =========================================================================
   // GROWI Sidebar — CSS Custom Properties
+  // (GROWI's CSS modules read these via var())
   // =========================================================================
 
-  --grw-sidebar-nav-btn-color: var(--grw-highlight-500);
-  --grw-sidebar-nav-btn-hover-bg: var(--grw-highlight-200);
+  --grw-sidebar-nav-btn-color: #{$outline-slate-dark};
+  --grw-sidebar-nav-btn-hover-bg: #{hsl(212, 31%, 90%)};
 
   // =========================================================================
   // Sidebar Navigation — Outline-style
+  //
+  // Note: .grw-primary-items / .grw-secondary-items are CSS Module hashed
+  // classes without global variants. Target via attribute selectors.
   // =========================================================================
 
   .grw-sidebar-nav {
     background-color: $outline-warm-grey;
-  }
 
-  .grw-primary-items .btn,
-  .grw-secondary-items .btn {
-    border-radius: 4px;
-    border: 0;
-    padding: 6px 16px;
-    min-height: 30px;
-    font-size: 16px;
-    font-weight: 475;
-    background: transparent;
-    box-shadow: none;
-    transition: background-color 0.1s ease;
+    // All buttons inside sidebar nav
+    .btn {
+      border-radius: 4px;
+      border: 0;
+      padding: 6px 16px;
+      min-height: 30px;
+      font-size: 16px;
+      font-weight: 475;
+      background: transparent;
+      box-shadow: none;
+      transition: background-color 0.1s ease;
 
-    &:hover {
-      background-color: var(--grw-highlight-200);
-    }
+      &:hover {
+        background-color: hsl(212, 31%, 90%);
+      }
 
-    &.active,
-    &[aria-current="page"] {
-      background-color: var(--grw-highlight-300);
+      &.active,
+      &[aria-current="page"] {
+        background-color: hsl(212, 31%, 85%);
+      }
     }
   }
 
   // =========================================================================
-  // Page Tree (file tree) — Outline-style with row backgrounds
+  // Page Tree (file tree) — Outline exact colors
   // =========================================================================
+
+  // Outline sidebar interaction colors
+  $sidebar-hover:  hsl(212, 31%, 90%);   // rgb(224, 229, 235)
+  $sidebar-active: hsl(212, 31%, 85%);   // rgb(204, 214, 224)
 
   [data-testid="grw-pagetree-item-container"] {
     .list-group-item {
@@ -257,7 +265,7 @@
       }
 
       &.active {
-        background-color: var(--grw-highlight-300);
+        background-color: $sidebar-active;
 
         &::before {
           background: $outline-accent;
@@ -266,7 +274,7 @@
       }
 
       &:hover {
-        background-color: var(--grw-highlight-200);
+        background-color: $sidebar-hover;
 
         &::before {
           opacity: 0.8;
@@ -289,7 +297,7 @@
       transform: rotate(-90deg);
 
       &:hover {
-        background: var(--grw-highlight-200);
+        background: $sidebar-hover;
       }
 
       &.open {
@@ -303,7 +311,37 @@
       border-radius: 4px;
 
       &:hover {
-        background: var(--grw-highlight-200);
+        background: $sidebar-hover;
+      }
+    }
+  }
+
+  // =========================================================================
+  // Navbar / Toolbar — consistent button styling
+  // =========================================================================
+
+  .navbar {
+    border-bottom: 1px solid $outline-slate-light;
+    background-color: $outline-white;
+
+    .nav-link,
+    .btn {
+      color: $outline-slate-dark;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: $sidebar-hover;
+        color: $outline-almost-black;
+      }
+    }
+
+    .btn-primary {
+      background-color: $outline-accent;
+      border-color: $outline-accent;
+      color: $outline-white;
+
+      &:hover {
+        background-color: darken($outline-accent, 5%);
       }
     }
   }
@@ -372,15 +410,6 @@
     &::placeholder {
       color: #a2b2c3;
     }
-  }
-
-  // =========================================================================
-  // Navbar
-  // =========================================================================
-
-  .navbar {
-    border-bottom: 1px solid $outline-slate-light;
-    background-color: $outline-white;
   }
 
   // =========================================================================
@@ -525,21 +554,20 @@
   // Sidebar navigation
   .grw-sidebar-nav {
     background-color: #08090c;
-  }
 
-  .grw-primary-items .btn,
-  .grw-secondary-items .btn {
-    color: #66778f;
+    .btn {
+      color: #66778f;
 
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.05);
-      color: #e6e6e6;
-    }
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #e6e6e6;
+      }
 
-    &.active,
-    &[aria-current="page"] {
-      background-color: rgba(255, 255, 255, 0.09);
-      color: #e6e6e6;
+      &.active,
+      &[aria-current="page"] {
+        background-color: rgba(255, 255, 255, 0.09);
+        color: #e6e6e6;
+      }
     }
   }
 
@@ -586,6 +614,16 @@
   .navbar {
     background-color: #111319;
     border-bottom-color: lighten(#111319, 10%);
+
+    .nav-link,
+    .btn {
+      color: #66778f;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #e6e6e6;
+      }
+    }
   }
 
   // Form controls
