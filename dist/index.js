@@ -1,1 +1,0 @@
-// GROWI Outline theme

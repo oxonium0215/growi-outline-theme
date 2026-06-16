@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "GROWI theme plugin inspired by Outline wiki's clean, minimal design language",
   "license": "MIT",
-  "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "vite build && echo '// GROWI Outline theme' > dist/index.js",
+    "build": "vite build",
     "dev": "vite build --watch",
     "lint": "run-s lint:biome lint:style",
     "lint:biome": "biome check --no-errors-on-unmatched --files-ignore-unknown=true",
