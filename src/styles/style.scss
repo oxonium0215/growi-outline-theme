@@ -432,32 +432,72 @@ a {
 }
 
 // ===========================================================================
-// Page Tree (file tree) — Outline-style document hierarchy
+// Page Tree (file tree) — Outline-style document hierarchy with row backgrounds
 // ===========================================================================
 
-// Tree item container — indentation handled by inline style
+// Depth-based left border colors (9 levels, repeating)
+$tree-depth-colors: (
+  0: $outline-marine,
+  1: $outline-blue,
+  2: $outline-purple,
+  3: $outline-red,
+  4: $outline-green,
+  5: $outline-marine,
+  6: $outline-blue,
+  7: $outline-purple,
+  8: $outline-red,
+);
+
+// Tree item container
 .tree-item-layout {
   // List group item inside tree layout
   :global(.list-group-item) {
-    --bs-list-group-bg: transparent;
+    --bs-list-group-bg: #{$outline-smoke-light};
     --bs-list-group-action-hover-bg: var(--grw-sidebar-hover-bg);
     --bs-list-group-action-active-bg: var(--grw-sidebar-active-bg);
     --bs-list-group-action-color: #{$outline-slate-dark};
     --bs-list-group-action-hover-color: #{$outline-almost-black};
     --bs-list-group-action-active-color: #{$outline-almost-black};
 
+    position: relative;
     border-radius: 4px;
     min-height: 30px;
+    margin-bottom: 1px;
     font-size: 16px;
     font-weight: 475;
     color: $outline-slate-dark;
+    background-color: $outline-smoke-light;
     transition: background-color 0.1s ease;
+
+    // Depth indicator — subtle left border
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 4px 100% 4px 0;
+      left: 3px;
+      width: 3px;
+      border-radius: 2px;
+      background: transparent;
+      transition: background 0.1s ease;
+    }
+
+    // Generate depth-specific left border colors
+    @each $depth, $color in $tree-depth-colors {
+      &:global(.tree-item-depth-#{$depth})::before {
+        background: rgba($color, 0.3);
+      }
+    }
 
     // Active state
     &:global(.active),
     &.active {
       background-color: var(--grw-sidebar-active-bg);
       color: $outline-almost-black;
+
+      &::before {
+        background: $outline-accent;
+        width: 3px;
+      }
     }
 
     // Drag target
@@ -469,6 +509,9 @@ a {
 
     // Hover controls visibility
     &:hover {
+      background-color: var(--grw-sidebar-hover-bg);
+      color: $outline-almost-black;
+
       :global(.d-hover-none) {
         display: none !important;
       }
@@ -842,10 +885,32 @@ blockquote {
       --bs-list-group-action-active-color: #{$outline-almost-white};
 
       color: $outline-slate;
+      background-color: #{lighten($outline-almost-black, 2%)};
+
+      // Depth indicator — more visible in dark mode
+      &::before {
+        background: transparent;
+      }
+
+      // Depth-specific left border colors (brighter in dark mode)
+      @each $depth, $color in $tree-depth-colors {
+        &:global(.tree-item-depth-#{$depth})::before {
+          background: rgba($color, 0.4);
+        }
+      }
 
       &:global(.active),
       &.active {
         background-color: var(--grw-sidebar-active-bg);
+        color: $outline-almost-white;
+
+        &::before {
+          background: $outline-accent-dark;
+        }
+      }
+
+      &:hover {
+        background-color: var(--grw-sidebar-hover-bg);
         color: $outline-almost-white;
       }
 
